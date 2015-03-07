@@ -12,16 +12,10 @@
     /* @ngInject */
     function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
-        // TODO: check how to eliminate dependency on document object
-        var vm = this,
-            barHeight = document.getElementsByTagName('ion-header-bar')[0].clientHeight,
-            NUMBER_OF_PAGES = 3;
+        var vm = this;
 
         vm.params = $stateParams;
         vm.settings = settingsService;
-        vm.getWidth = getWidth;
-        vm.getHeight = getHeight;
-        vm.getTotalHeight = getTotalHeight;
         vm.showOptions = showOptions;
         vm.hideModal = hideModal;
 
@@ -45,33 +39,6 @@
             }).finally(function () {
                 // TODO: turn off busy animation
             });
-        }
-
-        /**
-         * gets window width
-         * @returns {string}
-         */
-        function getWidth() {
-            // TODO: check how to eliminate dependency on window
-            return window.innerWidth + 'px';
-        }
-
-        /**
-         * Gets window height without the header bar
-         * @returns {string}
-         */
-        function getHeight() {
-            // TODO: check how to remove dependency on window
-            return parseInt(window.innerHeight - barHeight) + 'px';
-        }
-
-        /**
-         * Gets the total height by multiplying the height of the space by the number of pages
-         * @returns {string}
-         */
-        function getTotalHeight() {
-            // TODO: check how to remove dependency on window
-            return parseInt(parseInt(getHeight()) * NUMBER_OF_PAGES) + 'px';
         }
 
         /**

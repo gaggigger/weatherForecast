@@ -1,4 +1,4 @@
-<ion-view title="{{vm.params.city}}">
+<ion-view title="{{vm.params.city}}" id="weather-view">
     <ion-nav-buttons side="left">
         <button class="button button-clear"
                 menu-toggle="left">
@@ -9,81 +9,72 @@
         <button class="button button-icon"
                 ng-click="vm.showOptions()"><span class="icon ion-more"></span></button>
     </ion-nav-buttons>
-    <ion-content>
-        <ion-scroll direction="y"
-                    paging="true"
-                    ng-style="{width: vm.getWidth(), height: vm.getHeight()}">
-            <div ng-style="{height: vm.getTotalHeight()}">
-                <div class="scroll-page center"
-                     ng-style="{width: vm.getWidth(), height: vm.getHeight()}">
-                    <div class="bar bar-dark">
-                        <h1 class="title">Current Conditions</h1>
-                    </div>
-                    <div class="has-header">
-                        <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;</h2>
-                        <h2 class="secondary icon"
-                            ng-class="vm.forecast.currently.icon | icons"></h2>
-                        <p>{{vm.forecast.currently.summary}}</p>
-                        <p>High: {{vm.forecast.daily.data[0].temperatureMax | number:0}}&deg; Low: {{vm.forecast.daily.data[0].temperatureMin | number:0}}&deg; Feels Like: {{vm.forecast.currently.apparentTemperature | number:0}}&deg;</p>
-                        <p>Wind: {{vm.forecast.currently.windSpeed | number:0}}
-                            <span class="icon wind-icon ion-ios7-arrow-thin-up"
-                                  ng-style="{transform: 'rotate(' + vm.forecast.currently.windBearing + 'deg)'}"></span>
-                        </p>
-                        <p>Presure: {{vm.forecast.currently.pressure}}</p>
-                        <p>Sunrise: {{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}} Sunset: {{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</p>
-                        <h4 class="padding">{{vm.forecast.hourly.summary}}</h4>
-                    </div>
+    <ion-slide-box>
+        <ion-slide>
+            <div class="bar bar-dark has-header">
+                <h1 class="title">Current Conditions</h1>
+            </div>
+            <div class="has-header center">
+                <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;</h2>
+                <h2 class="secondary icon"
+                    ng-class="vm.forecast.currently.icon | icons"></h2>
+                <p>{{vm.forecast.currently.summary}}</p>
+                <p>High: {{vm.forecast.daily.data[0].temperatureMax | number:0}}&deg; Low: {{vm.forecast.daily.data[0].temperatureMin | number:0}}&deg; Feels Like: {{vm.forecast.currently.apparentTemperature | number:0}}&deg;</p>
+                <p>Wind: {{vm.forecast.currently.windSpeed | number:0}}
+                    <span class="icon wind-icon ion-ios7-arrow-thin-up"
+                          ng-style="{transform: 'rotate(' + vm.forecast.currently.windBearing + 'deg)'}"></span>
+                </p>
+                <p>Presure: {{vm.forecast.currently.pressure}}</p>
+                <p>Sunrise: {{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}} Sunset: {{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</p>
+                <h4 class="padding">{{vm.forecast.hourly.summary}}</h4>
+            </div>
+        </ion-slide>
+
+        <ion-slide>
+            <div class="bar bar-dark has-header">
+                <h1 class="title">Daily Forecast</h1>
+            </div>
+            <div class="has-header">
+                <p class="padding center">{{vm.forecast.daily.summary}}</p>
+
+                <div class="row">
+                    <div class="col col-25"><h4>Date</h4></div>
+                    <div class="col"><h4>Pptn</h4></div>
+                    <div class="col"><h4>Max</h4></div>
+                    <div class="col"><h4>Min</h4></div>
+                    <div class="col"><h4>Wind</h4></div>
+                    <div class="col"><h4>P</h4></div>
                 </div>
-
-                <div class="scroll-page"
-                     ng-style="{width: vm.getWidth(), height: vm.getHeight()}">
-                    <div class="bar bar-dark">
-                        <h1 class="title">Daily Forecast</h1>
+                <div class="row"
+                     ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days">
+                    <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
+                    <div class="col"><span class="icon"
+                                           ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
                     </div>
-                    <div class="has-header">
-                        <p class="padding">{{vm.forecast.daily.summary}}</p>
-
-                        <div class="row">
-                            <div class="col col-25"><h4>Date</h4></div>
-                            <div class="col"><h4>Pptn</h4></div>
-                            <div class="col"><h4>Max</h4></div>
-                            <div class="col"><h4>Min</h4></div>
-                            <div class="col"><h4>Wind</h4></div>
-                            <div class="col"><h4>P</h4></div>
-                        </div>
-                        <div class="row"
-                             ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days">
-                            <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
-                            <div class="col"><span class="icon"
-                                                   ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
-                            </div>
-                            <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
-                            <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
-                            <div class="col">{{day.windSpeed | number:1}}</div>
-                            <div class="col">{{day.pressure | number:0}}</div>
-                        </div>
-                    </div>
+                    <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
+                    <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
+                    <div class="col">{{day.windSpeed | number:1}}</div>
+                    <div class="col">{{day.pressure | number:0}}</div>
                 </div>
+            </div>
+        </ion-slide>
 
-                <div class="scroll-page"
-                     ng-style="{width: vm.getWidth(), height: vm.getHeight()}">
-                    <div class="bar bar-dark">
-                        <h1 class="title">Alerts</h1>
+        <ion-slide>
+            <div class="bar bar-dark has-header">
+                <h1 class="title">Alerts</h1>
+            </div>
+            <div class="list has-header">
+                <div class="card"
+                     ng-repeat="alert in vm.forecast.alerts">
+                    <div class="item item-divider item-assertive title">{{alert.title}}</div>
+                    <div class="item item-text-wrap">
+                        {{alert.description}}
                     </div>
-                    <div class="list has-header">
-                        <div class="card"
-                             ng-repeat="alert in vm.forecast.alerts">
-                            <div class="item item-divider item-assertive title">{{alert.title}}</div>
-                            <div class="item item-text-wrap">
-                                {{alert.description}}
-                            </div>
-                            <div class="item item-divider">
-                                Expires: {{alert.expires | timezone:vm.forecast.timezone}}
-                            </div>
-                        </div>
+                    <div class="item item-divider">
+                        Expires: {{alert.expires | timezone:vm.forecast.timezone}}
                     </div>
                 </div>
             </div>
-        </ion-scroll>
-    </ion-content>
+        </ion-slide>
+    </ion-slide-box>
 </ion-view>
