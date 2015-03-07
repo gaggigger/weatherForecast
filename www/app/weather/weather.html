@@ -43,6 +43,14 @@
                     <div class="has-header">
                         <p class="padding">{{vm.forecast.daily.summary}}</p>
 
+                        <div class="row">
+                            <div class="col col-25"><h4>Date</h4></div>
+                            <div class="col"><h4>Pptn</h4></div>
+                            <div class="col"><h4>Max</h4></div>
+                            <div class="col"><h4>Min</h4></div>
+                            <div class="col"><h4>Wind</h4></div>
+                            <div class="col"><h4>P</h4></div>
+                        </div>
                         <div class="row"
                              ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days">
                             <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
