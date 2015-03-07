@@ -79,15 +79,15 @@
          */
         function showOptions() {
             $ionicActionSheet.show({
-                buttons: [
-                    {text: 'Toggle Favorite'},
-                    {text: 'Set as Primary'},
-                    {text: 'Sunrise Sunset Chart'}
-                ],
+                buttons: actionButtons(),
                 cancelText: 'Cancel',
                 buttonClicked: function (index) {
                     if (index === 0) {
-                        locationsService.toggle($stateParams);
+                        if (this.buttons[0].id === 1) {
+                            locationsService.removeLocation($stateParams);
+                        } else {
+                            locationsService.addLocation($stateParams);
+                        }
                     } else if (index === 1) {
                         locationsService.primary($stateParams);
                     } else if (index === 2) {
@@ -99,18 +99,41 @@
         }
 
         /**
+         * Dynamically creates action buttons
+         */
+        function actionButtons() {
+            // find out if location already in favorites
+            var index = locationsService.getIndex($stateParams);
+            var buttons = [];
+
+            if (index >= 0) {
+                // location already in favorites
+                buttons.push({id: 1, text: 'Remove from Favorites'})
+            } else {
+                buttons.push({id: 2, text: 'Add to Favorites'})
+            }
+
+            buttons.push(
+                {id: 3, text: 'Set as Primary'},
+                {id: 4, text: 'Sunrise Sunset chart'}
+            );
+
+            return buttons;
+        }
+
+        /**
          * Creates a new modal from a template url, pass current scope to it.
          */
         $ionicModal.fromTemplateUrl('app/weather/modal-chart.html', {
             scope: $scope
-        }).then(function(modal){
+        }).then(function (modal) {
             vm.modal = modal;
         });
 
         /**
          * Calculates sunrise and sunset for each day in the year based on day, lan and lng
          */
-        function showModal(){
+        function showModal() {
             if (vm.modal) {
                 var days = [];
                 var day = Date.now();
@@ -130,7 +153,7 @@
         /**
          * remove modal view from memory to prevent memory leaks
          */
-        $scope.$on('$destroy', function() {
+        $scope.$on('$destroy', function () {
             $log.debug('modal charts destroyed');
             vm.modal.remove();
         })

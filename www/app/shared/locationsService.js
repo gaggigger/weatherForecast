@@ -8,31 +8,38 @@
     app.factory('locationsService', locationsService);
 
     function locationsService() {
-        var service = {
-            // TODO: Remove default location
-            data: [{
-                city: 'Medford, NJ, USA',
-                lat: 39.9360579,
-                lng: -74.7542431
-            }],
-            getIndex: getIndex,
-            toggle: toggle,
-            primary: primary
-        };
+        var locations = [],
+            service = {
+                getIndex: getIndex,
+                addLocation: addLocation,
+                removeLocation: removeLocation,
+                primary: primary,
+                locations: locations,
+                locationByIndex: locationByIndex
+            };
 
         return service;
 
         ////////////////
 
         /**
+         * Provides location by index in the list
+         * @param index
+         * @returns {*}
+         */
+        function locationByIndex(index) {
+            return locations[index];
+        }
+
+        /**
          * Gets index of the location from locations that user have in the list
-         * @param item
+         * @param locationToCheck
          * @returns {number}
          */
-        function getIndex(item) {
+        function getIndex(locationToCheck) {
             var index = -1;
-            angular.forEach(service.data, function (location, i) {
-                if (item.lat === location.lat && item.lng === location.lng) {
+            angular.forEach(locations, function (location, i) {
+                if (location.lat === locationToCheck.lat && location.lng === locationToCheck.lng) {
                     index = i;
                 }
             });
@@ -40,29 +47,35 @@
         }
 
         /**
-         * Removes item from the list of locations if it's already exists, otherwise it adds it if it doesn't
-         * @param item
+         * Removes location from the list of location
+         * @param location. Location that needs to be removed
          */
-        function toggle(item) {
-            var index = service.getIndex(item);
-            if (index >= 0) {
-                service.data.splice(index, 1);
-            } else {
-                service.data.push(item);
-            }
+        function removeLocation(location) {
+            var index = getIndex(location);
+            locations.splice(index, 1);
+        }
+
+        /**
+         * Adds new location to the storage
+         * @param location. New location that needs to be added
+         */
+        function addLocation(location) {
+            locations.push(location);
         }
 
         /**
          * Moves the location to the top position, or add it to the top if new
-         * @param item
+         * @param location
          */
-        function primary(item) {
-            var index = service.getIndex(item);
+        function primary(location) {
+            var index = getIndex(location);
             if (index >= 0) {
-                service.data.splice(index, 1);
-                service.data.splice(0, 0, item);
+                // location already exist. Move it to the top
+                locations.splice(index, 1);
+                locations.splice(0, 0, location);
             } else {
-                service.data.unshift(item);
+                // new fav location. Move it to the top
+                locations.unshift(location);
             }
         }
     }

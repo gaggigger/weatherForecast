@@ -14,7 +14,7 @@
         /* jshint validthis: true */
         var vm = this;
 
-        vm.locations = locationsService.data;
+        vm.locations = locationsService.locations;
         vm.title = 'Weather';
     }
 }(angular.module('weatherApp')));
