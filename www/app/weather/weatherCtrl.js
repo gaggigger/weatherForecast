@@ -7,10 +7,10 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -42,7 +42,6 @@
             $ionicLoading.show();
 
             return forecastService.forecast(params).then(function (result) {
-                $log.log(angular.toJson(result));
                 vm.forecast = result;
                 vm.lastTimeRefreshed = Date.now();
             }).catch(function (err) {
@@ -52,6 +51,9 @@
                 });
                 $log.error(err);
             }).finally(function () {
+                // this one is required to refresh alerts tab, otherwise it will be invisible, but if user scroll
+                // it will be able to get to that tab
+                $ionicSlideBoxDelegate.update();
                 $ionicLoading.hide();
             });
         }
@@ -136,7 +138,6 @@
          * remove modal view from memory to prevent memory leaks
          */
         $scope.$on('$destroy', function () {
-            $log.debug('modal charts destroyed');
             vm.modal.remove();
         })
     }

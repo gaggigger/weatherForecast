@@ -18,6 +18,7 @@
                templateUrl: 'app/settings/settings.html'
            })
            .state('weather', {
+               cache: false,
                url: '/weather/:city/:lat/:lng',
                controller: 'WeatherCtrl as vm',
                templateUrl: 'app/weather/weather.html'
