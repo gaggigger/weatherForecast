@@ -40,9 +40,9 @@
     font-weight: lighter;
 }
 
-/*#weather-view .has-header {*/
-/*position: relative;*/
-/*}*/
+#weather-view .has-header {
+    position: relative;
+}
 
 .item-assertive {
     border-color: #e42012;
@@ -56,12 +56,5 @@
 }
 
 #weather-view .slider {
-height: 100%;
+    height: 100%;
 }
-
-/*#weather-view .slider {*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*bottom: 0;*/
-    /*width: 100%*/
-/*}*/

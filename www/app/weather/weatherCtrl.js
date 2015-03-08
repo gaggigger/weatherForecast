@@ -29,22 +29,17 @@
          * Activates controller and calls initial action, to get forecast information
          */
         function activate() {
-            getForecastData(true);
+            getForecastData();
         }
 
         /**
-         * Gets data from the server. This function can be triggered on initial page load and when user pull out page for refresh
-         * If user pull out we need to turn broadcast that refresh finished, and for regular load we need to turn off
-         * busy animation
-         * @param initialDataLoad. Specifies if this is initial data load, or loaded when user pulled out page for data refresh
+         * Gets data from the server. This function can be triggered on initial page load and when user clicks on data reload
          * @returns {*}
          */
-        function getForecastData(initialDataLoad) {
+        function getForecastData() {
             var params = {lat: $stateParams.lat, lng: $stateParams.lng};
 
-            if (initialDataLoad){
-                $ionicLoading.show();
-            }
+            $ionicLoading.show();
 
             return forecastService.forecast(params).then(function (result) {
                 $log.log(angular.toJson(result));
@@ -56,8 +51,7 @@
                     duration: 3000
                 });
                 $log.error(err);
-            }).finally(function(){
-                $scope.$broadcast('scroll.refreshComplete');
+            }).finally(function () {
                 $ionicLoading.hide();
             });
         }

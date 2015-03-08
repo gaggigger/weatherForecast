@@ -8,67 +8,56 @@
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button class="button button-icon"
+                ng-click="vm.refresh()"><span class="icon ion-refresh"></span></button>
+        <button class="button button-icon"
                 ng-click="vm.showOptions()"><span class="icon ion-more"></span></button>
     </ion-nav-buttons>
     <ion-slide-box>
         <ion-slide>
-            <ion-content>
-                <ion-refresher on-refresh="vm.refresh()"
-                               pulling-text="{{vm.lastTimeRefreshed | date:'medium'}}">
-                </ion-refresher>
-                <div class="center">
-                    <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;</h2>
-                    <h2 class="secondary icon"
-                        ng-class="vm.forecast.currently.icon | icons"></h2>
-                    <p>{{vm.forecast.currently.summary}}</p>
-                    <p>High: {{vm.forecast.daily.data[0].temperatureMax | number:0}}&deg; Low: {{vm.forecast.daily.data[0].temperatureMin | number:0}}&deg; Feels Like: {{vm.forecast.currently.apparentTemperature | number:0}}&deg;</p>
-                    <p>Wind: {{vm.forecast.currently.windSpeed | number:0}}
-                        <span class="icon wind-icon ion-ios7-arrow-thin-up"
-                              ng-style="{transform: 'rotate(' + vm.forecast.currently.windBearing + 'deg)'}"></span>
-                    </p>
-                    <p>Presure: {{vm.forecast.currently.pressure}}</p>
-                    <p>Sunrise: {{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}} Sunset: {{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</p>
-                    <h4 class="padding">{{vm.forecast.hourly.summary}}</h4>
-                </div>
-            </ion-content>
+            <div class="center has-header">
+                <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;</h2>
+                <h2 class="secondary icon"
+                    ng-class="vm.forecast.currently.icon | icons"></h2>
+                <p>{{vm.forecast.currently.summary}}</p>
+                <p>High: {{vm.forecast.daily.data[0].temperatureMax | number:0}}&deg; Low: {{vm.forecast.daily.data[0].temperatureMin | number:0}}&deg; Feels Like: {{vm.forecast.currently.apparentTemperature | number:0}}&deg;</p>
+                <p>Wind: {{vm.forecast.currently.windSpeed | number:0}}
+                    <span class="icon wind-icon ion-ios7-arrow-thin-up"
+                          ng-style="{transform: 'rotate(' + vm.forecast.currently.windBearing + 'deg)'}"></span>
+                </p>
+                <p>Presure: {{vm.forecast.currently.pressure}}</p>
+                <p>Sunrise: {{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}} Sunset: {{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</p>
+                <h4 class="padding">{{vm.forecast.hourly.summary}}</h4>
+            </div>
         </ion-slide>
 
         <ion-slide>
-            <ion-content>
-                <ion-refresher on-refresh="vm.refresh()"
-                               pulling-text="{{vm.lastTimeRefreshed | date:'medium'}}">
-                </ion-refresher>
-                <div>
-                    <p class="padding center">{{vm.forecast.daily.summary}}</p>
+            <div class="has-header">
+                <p class="padding center">{{vm.forecast.daily.summary}}</p>
 
-                    <div class="row">
-                        <div class="col col-25"><h4>Date</h4></div>
-                        <div class="col"><h4>Pptn</h4></div>
-                        <div class="col"><h4>Max</h4></div>
-                        <div class="col"><h4>Min</h4></div>
-                        <div class="col"><h4>Wind</h4></div>
-                        <div class="col"><h4>P</h4></div>
-                    </div>
-                    <div class="row"
-                         ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days">
-                        <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
-                        <div class="col"><span class="icon"
-                                               ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
-                        </div>
-                        <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
-                        <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
-                        <div class="col">{{day.windSpeed | number:1}}</div>
-                        <div class="col">{{day.pressure | number:0}}</div>
-                    </div>
+                <div class="row">
+                    <div class="col col-25"><h4>Date</h4></div>
+                    <div class="col"><h4>Pptn</h4></div>
+                    <div class="col"><h4>Max</h4></div>
+                    <div class="col"><h4>Min</h4></div>
+                    <div class="col"><h4>Wind</h4></div>
+                    <div class="col"><h4>P</h4></div>
                 </div>
-            </ion-content>
+                <div class="row"
+                     ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days">
+                    <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
+                    <div class="col"><span class="icon"
+                                           ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
+                    </div>
+                    <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
+                    <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
+                    <div class="col">{{day.windSpeed | number:1}}</div>
+                    <div class="col">{{day.pressure | number:0}}</div>
+                </div>
+            </div>
         </ion-slide>
 
         <ion-slide ng-if="vm.forecast.alerts">
             <ion-content>
-                <ion-refresher on-refresh="vm.refresh()"
-                               pulling-text="{{vm.lastTimeRefreshed | date:'medium'}}">
-                </ion-refresher>
                 <div class="list">
                     <div class="card"
                          ng-repeat="alert in vm.forecast.alerts">
