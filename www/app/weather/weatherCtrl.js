@@ -7,10 +7,10 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -18,6 +18,8 @@
         vm.settings = settingsService;
         vm.showOptions = showOptions;
         vm.hideModal = hideModal;
+        vm.refresh = getForecastData;
+        vm.lastTimeRefreshed = Date.now();
 
         activate();
 
@@ -27,17 +29,36 @@
          * Activates controller and calls initial action, to get forecast information
          */
         function activate() {
-            // TODO: turn on busy animation
+            getForecastData(true);
+        }
+
+        /**
+         * Gets data from the server. This function can be triggered on initial page load and when user pull out page for refresh
+         * If user pull out we need to turn broadcast that refresh finished, and for regular load we need to turn off
+         * busy animation
+         * @param initialDataLoad. Specifies if this is initial data load, or loaded when user pulled out page for data refresh
+         * @returns {*}
+         */
+        function getForecastData(initialDataLoad) {
             var params = {lat: $stateParams.lat, lng: $stateParams.lng};
 
-            forecastService.forecast(params).then(function (result) {
+            if (initialDataLoad){
+                $ionicLoading.show();
+            }
+
+            return forecastService.forecast(params).then(function (result) {
                 $log.log(angular.toJson(result));
                 vm.forecast = result;
+                vm.lastTimeRefreshed = Date.now();
             }).catch(function (err) {
-                // TODO: add error message to the user
+                $ionicLoading.show({
+                    template: 'Could not load weather information from the server',
+                    duration: 3000
+                });
                 $log.error(err);
-            }).finally(function () {
-                // TODO: turn off busy animation
+            }).finally(function(){
+                $scope.$broadcast('scroll.refreshComplete');
+                $ionicLoading.hide();
             });
         }
 
