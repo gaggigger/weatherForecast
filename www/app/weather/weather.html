@@ -24,7 +24,7 @@
                     <span class="icon wind-icon ion-ios7-arrow-thin-up"
                           ng-style="{transform: 'rotate(' + vm.forecast.currently.windBearing + 'deg)'}"></span>
                 </p>
-                <p>Presure: {{vm.forecast.currently.pressure}}</p>
+                <p>Pressure: {{vm.forecast.currently.pressure}}</p>
                 <p>Sunrise: {{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}} Sunset: {{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</p>
                 <h4 class="padding">{{vm.forecast.hourly.summary}}</h4>
             </div>
