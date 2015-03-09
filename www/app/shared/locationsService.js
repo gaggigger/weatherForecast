@@ -7,20 +7,36 @@
 
     app.factory('locationsService', locationsService);
 
-    function locationsService() {
-        var locations = [],
+    locationsService.$inject = ['$log'];
+
+    function locationsService($log) {
+        var LOCATIONS_KEY = 'locations',
             service = {
                 getIndex: getIndex,
                 addLocation: addLocation,
                 removeLocation: removeLocation,
                 primary: primary,
-                locations: locations,
+                locations: [],
                 locationByIndex: locationByIndex
             };
+
+        activate();
 
         return service;
 
         ////////////////
+
+        /**
+         * Initialized data. Gets locations from localStorage
+         */
+        function activate() {
+            try {
+                service.locations = angular.fromJson(localStorage.getItem(LOCATIONS_KEY)) || [];
+            } catch (err) {
+                service.locations = [];
+                $log.error('Failed to get location from localStorage. Error: ' + err);
+            }
+        }
 
         /**
          * Provides location by index in the list
@@ -28,7 +44,7 @@
          * @returns {*}
          */
         function locationByIndex(index) {
-            return locations[index];
+            return service.locations[index];
         }
 
         /**
@@ -38,7 +54,7 @@
          */
         function getIndex(locationToCheck) {
             var index = -1;
-            angular.forEach(locations, function (location, i) {
+            angular.forEach(service.locations, function (location, i) {
                 if (location.lat === locationToCheck.lat && location.lng === locationToCheck.lng) {
                     index = i;
                 }
@@ -52,7 +68,8 @@
          */
         function removeLocation(location) {
             var index = getIndex(location);
-            locations.splice(index, 1);
+            service.locations.splice(index, 1);
+            storeLocations();
         }
 
         /**
@@ -60,7 +77,8 @@
          * @param location. New location that needs to be added
          */
         function addLocation(location) {
-            locations.push(location);
+            service.locations.push(location);
+            storeLocations();
         }
 
         /**
@@ -71,12 +89,20 @@
             var index = getIndex(location);
             if (index >= 0) {
                 // location already exist. Move it to the top
-                locations.splice(index, 1);
-                locations.splice(0, 0, location);
+                service.locations.splice(index, 1);
+                service.locations.splice(0, 0, location);
             } else {
-                // new fav location. Move it to the top
-                locations.unshift(location);
+                // new favorite location. Move it to the top
+                service.locations.unshift(location);
+                storeLocations();
             }
+        }
+
+        /**
+         * Persists locations to local storage
+         */
+        function storeLocations() {
+            localStorage.setItem(LOCATIONS_KEY, angular.toJson(service.locations));
         }
     }
 
