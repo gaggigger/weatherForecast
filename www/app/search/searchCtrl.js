@@ -7,10 +7,10 @@
 
     app.controller('SearchCtrl', SearchCtrl);
 
-    SearchCtrl.$inject = ['$log', 'mapsService'];
+    SearchCtrl.$inject = ['$log', '$ionicLoading', 'mapsService'];
 
     /* @ngInject */
-    function SearchCtrl($log, mapsService) {
+    function SearchCtrl($log, $ionicLoading, mapsService) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -24,17 +24,21 @@
          * Searches for geo location information
          */
         function search() {
-            // TODO: turn on busy animation
+            $ionicLoading.show();
+
             var params = {params: {
                 address: vm.model.term
             }};
             mapsService.geoCode(params).then(function(results){
                 vm.results = results;
             }).catch(function(err){
-                // TODO: add error message to the user
+                $ionicLoading.show({
+                    template: 'Could not get geo code from the server',
+                    duration: 3000
+                });
                 $log.error(err);
             }).finally(function(){
-                // TODO: turn off busy animation
+                $ionicLoading.hide();
             });
         }
     }
