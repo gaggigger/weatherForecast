@@ -42,8 +42,8 @@
                 <div class="row">
                     <div class="col col-25"><h4>Date</h4></div>
                     <div class="col"><h4>Pptn</h4></div>
-                    <div class="col"><h4>Max</h4></div>
-                    <div class="col"><h4>Min</h4></div>
+                    <div class="col"><h4>High</h4></div>
+                    <div class="col"><h4>Low</h4></div>
                     <div class="col"><h4>Wind</h4></div>
                     <div class="col"><h4>P</h4></div>
                 </div>
@@ -55,7 +55,9 @@
                     </div>
                     <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
                     <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
-                    <div class="col">{{day.windSpeed | number:1}}</div>
+                    <div class="col">{{day.windSpeed | number:1}}
+                        <span class="icon wind-icon ion-ios7-arrow-thin-up"
+                              ng-style="{transform: 'rotate(' + day.windBearing + 'deg)'}"></span></div>
                     <div class="col">{{day.pressure | number:0}}</div>
                 </div>
             </div>
