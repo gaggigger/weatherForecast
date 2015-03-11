@@ -25,6 +25,11 @@
     font-size: 20px;
 }
 
+#weather-view .second-view div.col {
+    /* top right bottom left */
+    padding: 3px 1px 3px 5px;
+}
+
 #weather-view .center {
     text-align: center;
 }
@@ -43,11 +48,6 @@
     position: relative;
 }
 
-#weather-view .second-view div.col {
-    /* top right bottom left */
-    padding: 3px 1px 3px 5px;
-}
-
 .item-assertive {
     border-color: #e42012;
     background-color: #ef473a;
@@ -64,6 +64,6 @@
 }
 
 /* bolder text for daily forecast */
-#weather-view .second-view h5 {
+.bolder {
     font-weight: bolder;
 }

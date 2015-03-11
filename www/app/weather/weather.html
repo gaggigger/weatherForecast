@@ -17,7 +17,7 @@
             <div class="center has-header">
                 <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;<span class="icon secondary" ng-class="vm.forecast.currently.icon | icons"></span></h2>
 
-                <p>{{vm.forecast.currently.summary}}</p>
+                <p class="bolder">{{vm.forecast.currently.summary}}</p>
                 <h5>High:
                     <strong>{{vm.forecast.daily.data[0].temperatureMax | number:0}}&deg;</strong> at {{vm.forecast.daily.data[0].temperatureMaxTime | timezone:vm.forecast.timezone}}
                     Low:
@@ -31,7 +31,7 @@
                 <p>Pressure: <strong>{{vm.forecast.currently.pressure}}</strong></p>
                 <p>Sunrise: <strong>{{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}}</strong>
                    Sunset: <strong>{{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</strong></p>
-                <h4 class="padding">{{vm.forecast.hourly.summary}}</h4>
+                <h4 class="padding bolder">{{vm.forecast.hourly.summary}}</h4>
             </div>
         </ion-slide>
 
