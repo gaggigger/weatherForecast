@@ -35,7 +35,7 @@
             </div>
         </ion-slide>
 
-        <ion-slide>
+        <ion-slide class="second-view">
             <div class="has-header">
                 <h5 class="padding center">{{vm.forecast.daily.summary}}</h5>
 
@@ -50,7 +50,7 @@
                 <div class="row"
                      ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days">
                     <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
-                    <div class="col"><span class="icon"
+                    <div class="col"><span class="icon weather-icon"
                                            ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
                     </div>
                     <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
