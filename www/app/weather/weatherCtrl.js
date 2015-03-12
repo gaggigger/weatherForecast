@@ -7,10 +7,10 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -105,6 +105,8 @@
             return buttons;
         }
 
+        // region Sunrise Sunset
+
         /**
          * Creates a new modal from a template url, pass current scope to it.
          */
@@ -119,17 +121,27 @@
          */
         function showModal() {
             if (vm.modal) {
-                var days = [];
-                var day = Date.now();
+                var days = [],
+                    dayInfo,
+                    dateFilter = $filter('date'),
+                    day = Date.now();
+
                 for (var i = 0; i < 365; i++) {
                     day += 1000 * 60 * 60 * 24;
-                    days.push(SunCalc.getTimes(day, vm.params.lat, vm.params.lng));
+                    dayInfo = SunCalc.getTimes(day, vm.params.lat, vm.params.lng);
+                    days.push(dateFilter(dayInfo.sunrise, 'MMM d') +
+                    ': ' + dateFilter(dayInfo.sunrise, 'shortTime') +
+                    ', ' + dateFilter(dayInfo.sunset, 'shortTime'));
                 }
+
                 vm.chart = days;
                 vm.modal.show();
             }
         }
 
+        /**
+         * Hides modal window
+         */
         function hideModal() {
             vm.modal.hide();
         }
@@ -140,5 +152,7 @@
         $scope.$on('$destroy', function () {
             vm.modal.remove();
         })
+
+        // endregion
     }
 }(angular.module('weatherApp')));

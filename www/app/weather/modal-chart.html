@@ -7,8 +7,11 @@
     </ion-header-bar>
     <ion-content>
         <div class="list">
-            <div class="item" style="width: 100%" collection-repeat="day in vm.chart" collection-item-width="vm.getWidth()" collection-item-height="'53px'">
-                {{day.sunrise | date:'MMM d'}}: {{day.sunrise | date:'shortTime'}}, {{day.sunset | date:'shortTime'}}
+            <div class="item"
+                 style="width: 100%"
+                 collection-repeat="day in ::vm.chart"
+                 collection-item-height="'53px'">
+                {{day}}
             </div>
         </div>
     </ion-content>
