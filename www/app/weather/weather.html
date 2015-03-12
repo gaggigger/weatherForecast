@@ -48,7 +48,7 @@
                     <div class="col"><h4>P</h4></div>
                 </div>
                 <div class="row"
-                     ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days">
+                     ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days" ng-if="!$first">
                     <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
                     <div class="col"><span class="icon weather-icon"
                                            ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
