@@ -20,6 +20,8 @@
                 <p class="bolder">{{vm.forecast.currently.summary}}</p>
                 <h5>High:
                     <strong>{{vm.forecast.daily.data[0].temperatureMax | number:0}}&deg;</strong> at {{vm.forecast.daily.data[0].temperatureMaxTime | timezone:vm.forecast.timezone}}
+                    </h5>
+                <h5>
                     Low:
                     <strong>{{vm.forecast.daily.data[0].temperatureMin | number:0}}&deg;</strong> at {{vm.forecast.daily.data[0].temperatureMinTime | timezone:vm.forecast.timezone}}
                 </h5>
