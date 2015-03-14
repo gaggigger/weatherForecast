@@ -7,14 +7,14 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$state', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $state, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
         var vm = this;
 
-        vm.params = $stateParams;
+        vm.params = null;
         vm.settings = settingsService;
         vm.showOptions = showOptions;
         vm.hideModal = hideModal;
@@ -29,7 +29,27 @@
          * Activates controller and calls initial action, to get forecast information
          */
         function activate() {
-            getForecastData();
+            processRequest();
+        }
+
+        /**
+         * Checks if there are any parameters are passed and if passed get data for that location
+         * If there are no parameters passed, but user has favorite locations, then open first favorite location
+         * If there are no location passed and user doesn't have favorite locations then redirect him to search page
+         */
+        function processRequest() {
+            // check for location from parameters or from fav locations
+            if (!$stateParams.city && locationsService.locations.length > 0) {
+                $stateParams = locationsService.locations[0];
+            }
+
+            if ($stateParams.city) {
+                vm.params = $stateParams;
+                $log.log(angular.toJson($stateParams));
+                getForecastData();
+            } else {
+                $state.go('search');
+            }
         }
 
         /**
@@ -151,7 +171,7 @@
          */
         $scope.$on('$destroy', function () {
             vm.modal.remove();
-        })
+        });
 
         // endregion
     }

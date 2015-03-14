@@ -19,11 +19,11 @@
            })
            .state('weather', {
                cache: false,
-               url: '/weather/:city/:lat/:lng',
+               url: '/weather?city&lat&lng',
                controller: 'WeatherCtrl as vm',
                templateUrl: 'app/weather/weather.html'
            });
 
-        $urlRouterProvider.otherwise('/search');
+        $urlRouterProvider.otherwise('/weather');
     });
 }(angular.module('weatherApp')));
