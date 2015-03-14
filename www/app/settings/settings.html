@@ -1,4 +1,5 @@
-<ion-view title="{{::vm.title}}">
+<ion-view title="{{::vm.title}}"
+          id="settingsView">
     <ion-content>
         <ion-list>
             <ion-item class="item-divider">Units</ion-item>
@@ -18,22 +19,29 @@
                          value="8"
                          type="range"/> 7
             </div>
-            <div ng-if="vm.locations.length > 0"
-                 class="item item-button-right">Favorites
-                <button class="button button-small"
-                        ng-click="vm.canDelete = !vm.canDelete">{{(vm.canDelete) ? 'Done' : 'Edit'}}
+            <div class="bar bar-stable"
+                 ng-if="vm.locations.length > 0">
+                <button class="button button-icon icon ion-ios7-minus-outline"
+                        ng-click="vm.showDelete = !vm.showDelete; vm.showReorder = false;"></button>
+                <span class="title">Favorites</span>
+                <button ng-if="vm.locations.length > 1"
+                        class="button"
+                        ng-click="vm.showDelete = false; vm.showReorder = !vm.showReorder;">Reorder
                 </button>
             </div>
         </ion-list>
-        <ion-list show-delete="vm.canDelete">
+        <ion-list class="has-header"
+                  show-delete="vm.showDelete"
+                  show-reorder="vm.showReorder">
             <ion-item ng-repeat="location in vm.locations">
-                <ion-delete-button class="ion-minus-circled"
-                                   ng-click="vm.remove($index)"></ion-delete-button>
                 {{location.city}}
+                <ion-delete-button class="ion-minus-circled"
+                                   ng-click="vm.removeLocation(location)">
+                </ion-delete-button>
+                <ion-reorder-button class="ion-navicon"
+                                    on-reorder="vm.moveLocation(location, $fromIndex, $toIndex)">
+                </ion-reorder-button>
             </ion-item>
         </ion-list>
-        <p class="padding">Weather data provided by
-            <a href="https://developer.forecast.io/docs/v2">Forecast.io</a> and geocoding powered by
-            <a href="https://developers.google.com/maps/documentation/geocoding/">Google</a></p>
     </ion-content>
 </ion-view>

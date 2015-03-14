@@ -5,12 +5,12 @@
 (function (app) {
     'use strict';
 
-    app.controller('SettingsCtrl', SettingsCtrl);
+    app.controller('SettingsCtrl', settingsCtrl);
 
-    SettingsCtrl.$inject = ['$ionicPopup', 'settingsService', 'locationsService'];
+    settingsCtrl.$inject = ['$ionicPopup', 'settingsService', 'locationsService'];
 
     /* @ngInject */
-    function SettingsCtrl($ionicPopup, settingsService, locationsService) {
+    function settingsCtrl($ionicPopup, settingsService, locationsService) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -18,7 +18,8 @@
         vm.settings = settingsService;
         vm.locations = locationsService.locations;
         vm.canDelete = false;
-        vm.remove = remove;
+        vm.removeLocation = removeLocation;
+        vm.moveLocation = locationsService.moveLocation;
 
         ////////////////
 
@@ -26,26 +27,20 @@
          * Handles removing location from the list of locations
          * @param index
          */
-        function remove(index) {
-            var location;
+        function removeLocation(location) {
+            $ionicPopup.confirm({
+                title: 'Are you sure?',
+                template: 'This will remove ' + location.city
+            }).then(function (result) {
+                if (result) {
+                    locationsService.removeLocation(location);
+                }
 
-            if (index >= 0) {
-                location = locationsService.locationByIndex(index);
-
-                $ionicPopup.confirm({
-                    title: 'Are you sure?',
-                    template: 'This will remove ' + location.city
-                }).then(function (result) {
-                    if (result) {
-                        locationsService.removeLocation(location);
-                    }
-
-                    // if it's last element that is deleted, then reset delete button
-                    if (locationsService.locations.length === 0){
-                        vm.canDelete = false;
-                    }
-                });
-            }
+                // if it's last element that is deleted, then reset delete button
+                if (locationsService.locations.length === 0) {
+                    vm.canDelete = false;
+                }
+            });
         }
     }
 }(angular.module('weatherApp')));

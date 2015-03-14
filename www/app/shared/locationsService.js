@@ -17,7 +17,8 @@
                 removeLocation: removeLocation,
                 primary: primary,
                 locations: [],
-                locationByIndex: locationByIndex
+                locationByIndex: locationByIndex,
+                moveLocation: moveLocation
             };
 
         activate();
@@ -103,6 +104,18 @@
          */
         function storeLocations() {
             localStorage.setItem(LOCATIONS_KEY, angular.toJson(service.locations));
+        }
+
+        /**
+         * Moves location from one position to another and persist that information
+         * @param location
+         * @param fromIndex
+         * @param toIndex
+         */
+        function moveLocation(location, fromIndex, toIndex) {
+            service.locations.splice(fromIndex, 1);
+            service.locations.splice(toIndex, 0, location);
+            storeLocations();
         }
     }
 
