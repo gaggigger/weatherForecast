@@ -44,7 +44,8 @@
     font-size: 130px;
 }
 
-#weather-view .has-header {
+/* apply relative position to only first and second view */
+#weather-view ion-slide div.has-header {
     position: relative;
 }
 
