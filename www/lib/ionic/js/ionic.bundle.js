@@ -4665,7 +4665,8 @@ ionic.views.Scroll = ionic.views.View.inherit({
     };
 
     self.touchMove = function(e) {
-      if (!self.__isDown ||
+      if (ionic.slide.isSliding ||
+        !self.__isDown ||
         (!self.__isDown && e.defaultPrevented) ||
         (e.target.tagName === 'TEXTAREA' && e.target.parentElement.querySelector(':focus')) ) {
         return;
@@ -7387,6 +7388,8 @@ ionic.views.Slider = ionic.views.View.inherit({
           // prevent native scrolling
           event.preventDefault();
 
+          ionic.slide.isSliding = true;
+
           // stop slideshow
           stop();
 
@@ -7418,6 +7421,8 @@ ionic.views.Slider = ionic.views.View.inherit({
 
       },
       end: function(event) {
+
+        ionic.slide.isSliding = false;
 
         // measure duration
         var duration = +new Date() - start.time;
@@ -7665,6 +7670,10 @@ ionic.views.Slider = ionic.views.View.inherit({
 
   }
 });
+
+ionic.slide = {
+    isSliding: false
+}
 
 })(ionic);
 
