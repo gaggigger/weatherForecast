@@ -21,7 +21,7 @@
 
         function forecast(location) {
             return $http.get(apiEndpoints.FORECAST_API + location.lat + ',' + location.lng,
-                {params: {units: settingsService.units}}).then(function(response){
+                {params: {units: settingsService.settings.units}}).then(function(response){
                     if (response.status === 200) {
                         return response.data;
                     } else {
