@@ -36,7 +36,6 @@
                 <p>Sunrise: <strong>{{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}}</strong>
                    Sunset: <strong>{{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</strong></p>
                 <h4 class="padding bolder">{{vm.forecast.hourly.summary}}</h4>
-
             </div>
             <div class="fixed-outside">
                 Updated {{vm.lastTimeRefreshed | date: 'short'}}

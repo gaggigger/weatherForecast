@@ -7,19 +7,18 @@
 
     app.factory('locationsService', locationsService);
 
-    locationsService.$inject = ['$log'];
+    locationsService.$inject = ['$log', 'storage'];
 
-    function locationsService($log) {
-        var LOCATIONS_KEY = 'locations',
-            service = {
-                getIndex: getIndex,
-                addLocation: addLocation,
-                removeLocation: removeLocation,
-                primary: primary,
-                locations: [],
-                locationByIndex: locationByIndex,
-                moveLocation: moveLocation
-            };
+    function locationsService($log, storage) {
+        var service = {
+            getIndex: getIndex,
+            addLocation: addLocation,
+            removeLocation: removeLocation,
+            primary: primary,
+            locations: [],
+            locationByIndex: locationByIndex,
+            moveLocation: moveLocation
+        };
 
         activate();
 
@@ -32,7 +31,7 @@
          */
         function activate() {
             try {
-                service.locations = angular.fromJson(localStorage.getItem(LOCATIONS_KEY)) || [];
+                service.locations = angular.fromJson(localStorage.getItem(storage.LOCATIONS_KEY)) || [];
             } catch (err) {
                 service.locations = [];
                 $log.error('Failed to get locations from localStorage. Error: ' + err);
@@ -103,7 +102,7 @@
          * Persists locations to local storage
          */
         function storeLocations() {
-            localStorage.setItem(LOCATIONS_KEY, angular.toJson(service.locations));
+            localStorage.setItem(storage.LOCATIONS_KEY, angular.toJson(service.locations));
         }
 
         /**
