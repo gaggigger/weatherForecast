@@ -21,6 +21,8 @@
         vm.hideModal = hideModal;
         vm.refresh = getForecastData;
         vm.lastTimeRefreshed = Date.now();
+        vm.toggleDay = toggleDay;
+        vm.isDayExpanded = isDayExpanded;
 
         activate();
 
@@ -191,6 +193,22 @@
         $scope.$on('$destroy', function () {
             vm.modal.remove();
         });
+
+        // endregion
+
+        // region Accordion
+
+        function toggleDay(day) {
+            if (isDayExpanded(day)) {
+                vm.shownDay = null;
+            } else {
+                vm.shownDay = day;
+            }
+        }
+
+        function isDayExpanded(day) {
+            return vm.shownDay === day;
+        }
 
         // endregion
     }

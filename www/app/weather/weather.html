@@ -55,20 +55,27 @@
                     <div class="col"><h4>Wind</h4></div>
                     <div class="col"><h4>P</h4></div>
                 </div>
-                <div class="row"
-                     ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days"
-                     ng-if="!$first">
-                    <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
-                    <div class="col"><span class="icon weather-icon"
-                                           ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
+                <ion-list>
+                    <div ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days"
+                              ng-click="vm.toggleDay(day)"
+                              ng-if="!$first">
+                        <div class="row">
+                            <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
+                            <div class="col"><span class="icon weather-icon"
+                                                   ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
+                            </div>
+                            <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
+                            <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
+                            <div class="col">{{day.windSpeed | number:1}}
+                                <span class="icon wind-icon ion-ios7-arrow-thin-up"
+                                      ng-style="{transform: 'rotate(' + day.windBearing + 'deg)'}"></span></div>
+                            <div class="col">{{day.pressure | number:0}}</div>
+                        </div>
+                        <ion-item class="item-accordion"
+                                  ng-show="vm.isDayExpanded(day)">{{vm.shownDay.summary}}
+                        </ion-item>
                     </div>
-                    <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
-                    <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
-                    <div class="col">{{day.windSpeed | number:1}}
-                        <span class="icon wind-icon ion-ios7-arrow-thin-up"
-                              ng-style="{transform: 'rotate(' + day.windBearing + 'deg)'}"></span></div>
-                    <div class="col">{{day.pressure | number:0}}</div>
-                </div>
+                </ion-list>
             </div>
             <div class="fixed-outside">
                 Updated {{vm.lastTimeRefreshed | date: 'short'}}

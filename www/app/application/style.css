@@ -9,11 +9,11 @@
     padding-top: 5px;
 }
 
-#weather-view .row:nth-of-type(odd) {
+#weather-view .second-view ion-list>div.list>div:nth-of-type(odd) {
     background: #fafafa;
 }
 
-#weather-view .row:nth-of-type(even) {
+#weather-view .second-view ion-list>div.list>div:nth-of-type(even) {
     background: #f3f3f3;
 }
 
@@ -87,4 +87,16 @@
 /* notifies content about custom footer so it provides corresponding height */
 .has-bottom{
     bottom:20px !important;
+}
+
+/* Accordion related settings */
+.list .item.item-accordion {
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: 0.09s all linear;
+}
+
+.list .item.item-accordion.ng-hide {
+    line-height: 0;
 }
