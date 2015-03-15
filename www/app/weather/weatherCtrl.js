@@ -7,15 +7,16 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$state', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$state', '$q', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', '$timeout', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $state, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $state, $q, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, $timeout, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
-        var vm = this;
+        var vm = this,
+            days = [];
 
         vm.params = null;
-        vm.settings = settingsService;
+        vm.settings = settingsService.settings;
         vm.showOptions = showOptions;
         vm.hideModal = hideModal;
         vm.refresh = getForecastData;
@@ -137,15 +138,33 @@
         });
 
         /**
-         * Calculates sunrise and sunset for each day in the year based on day, lan and lng
+         * Calculates sunrise and sunset for each day in the year based on day, lan and lng.
+         * If days already calculated then show them again, don't recalculate them
          */
         function showModal() {
             if (vm.modal) {
-                var days = [],
-                    dayInfo,
-                    dateFilter = $filter('date'),
-                    day = Date.now();
+                if (days.length > 0) {
+                    vm.modal.show();
+                } else {
+                    calculateSunsetSunriseTime().then(function (days) {
+                        vm.chart = days;
+                        vm.modal.show();
+                    });
+                }
+            }
+        }
 
+        /**
+         * Calculates sunrise and sunset for particular location
+         * @returns {promise|*|qFactory.Deferred.promise|dd.g.promise}
+         */
+        function calculateSunsetSunriseTime() {
+            var deferred = $q.defer(),
+                dayInfo,
+                dateFilter = $filter('date'),
+                day = Date.now();
+
+            $timeout(function () {
                 for (var i = 0; i < 365; i++) {
                     day += 1000 * 60 * 60 * 24;
                     dayInfo = SunCalc.getTimes(day, vm.params.lat, vm.params.lng);
@@ -153,10 +172,10 @@
                     ': ' + dateFilter(dayInfo.sunrise, 'shortTime') +
                     ', ' + dateFilter(dayInfo.sunset, 'shortTime'));
                 }
+                deferred.resolve(days);
+            });
 
-                vm.chart = days;
-                vm.modal.show();
-            }
+            return deferred.promise;
         }
 
         /**
