@@ -51,7 +51,7 @@
                 $log.log(angular.toJson($stateParams));
                 getForecastData();
             } else {
-                $state.go('search');
+                //$state.go('search');
             }
         }
 
