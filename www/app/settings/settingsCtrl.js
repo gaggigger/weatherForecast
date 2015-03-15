@@ -7,15 +7,15 @@
 
     app.controller('SettingsCtrl', settingsCtrl);
 
-    settingsCtrl.$inject = ['$ionicPopup', 'settingsService', 'locationsService'];
+    settingsCtrl.$inject = ['$scope', '$ionicPopup', 'settingsService', 'locationsService'];
 
     /* @ngInject */
-    function settingsCtrl($ionicPopup, settingsService, locationsService) {
+    function settingsCtrl($scope, $ionicPopup, settingsService, locationsService) {
         /* jshint validthis: true */
         var vm = this;
 
         vm.title = 'Settings';
-        vm.settings = settingsService;
+        vm.settings = settingsService.settings;
         vm.locations = locationsService.locations;
         vm.canDelete = false;
         vm.removeLocation = removeLocation;
@@ -42,5 +42,8 @@
                 }
             });
         }
+
+        // watches for service changes and if there are any then store them to localStorage
+        $scope.$watch('vm.settings', settingsService.storeSettings, true);
     }
 }(angular.module('weatherApp')));

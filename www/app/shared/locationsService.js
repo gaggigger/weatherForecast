@@ -35,7 +35,7 @@
                 service.locations = angular.fromJson(localStorage.getItem(LOCATIONS_KEY)) || [];
             } catch (err) {
                 service.locations = [];
-                $log.error('Failed to get location from localStorage. Error: ' + err);
+                $log.error('Failed to get locations from localStorage. Error: ' + err);
             }
         }
 
