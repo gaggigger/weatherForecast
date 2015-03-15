@@ -14,13 +14,15 @@
     </ion-nav-buttons>
     <ion-slide-box>
         <ion-slide>
-            <div class="center has-header">
-                <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;<span class="icon secondary" ng-class="vm.forecast.currently.icon | icons"></span></h2>
+            <div class="center has-header has-bottom">
+                <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;<span class="icon secondary"
+                                                                                               ng-class="vm.forecast.currently.icon | icons"></span>
+                </h2>
 
                 <p class="bolder">{{vm.forecast.currently.summary}}</p>
                 <h5>High:
                     <strong>{{vm.forecast.daily.data[0].temperatureMax | number:0}}&deg;</strong> at {{vm.forecast.daily.data[0].temperatureMaxTime | timezone:vm.forecast.timezone}}
-                    </h5>
+                </h5>
                 <h5>
                     Low:
                     <strong>{{vm.forecast.daily.data[0].temperatureMin | number:0}}&deg;</strong> at {{vm.forecast.daily.data[0].temperatureMinTime | timezone:vm.forecast.timezone}}
@@ -34,11 +36,15 @@
                 <p>Sunrise: <strong>{{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}}</strong>
                    Sunset: <strong>{{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</strong></p>
                 <h4 class="padding bolder">{{vm.forecast.hourly.summary}}</h4>
+
+            </div>
+            <div class="fixed-outside">
+                Updated {{vm.lastTimeRefreshed | date: 'short'}}
             </div>
         </ion-slide>
 
         <ion-slide class="second-view">
-            <div class="has-header">
+            <div class="has-header has-bottom">
                 <h5 class="padding center">{{vm.forecast.daily.summary}}</h5>
 
                 <div class="row">
@@ -50,7 +56,8 @@
                     <div class="col"><h4>P</h4></div>
                 </div>
                 <div class="row"
-                     ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days" ng-if="!$first">
+                     ng-repeat="day in vm.forecast.daily.data | limitTo:vm.settings.days"
+                     ng-if="!$first">
                     <div class="col col-25">{{day.time + '000' | date:'EEEE'}}</div>
                     <div class="col"><span class="icon weather-icon"
                                            ng-class="day.icon | icons"></span><sup>{{(day.precipProbability * 100) | number:0}}</sup>
@@ -62,6 +69,9 @@
                               ng-style="{transform: 'rotate(' + day.windBearing + 'deg)'}"></span></div>
                     <div class="col">{{day.pressure | number:0}}</div>
                 </div>
+            </div>
+            <div class="fixed-outside">
+                Updated {{vm.lastTimeRefreshed | date: 'short'}}
             </div>
         </ion-slide>
 
