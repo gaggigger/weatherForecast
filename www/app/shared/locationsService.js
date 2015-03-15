@@ -8,18 +8,16 @@
     app.provider('locationsService', locationsService);
 
     function locationsService() {
-        var LOCATIONS_KEY = 'locations';
+        var self = this,
+            LOCATIONS_KEY = 'locations';
 
         /**
          * Gets locations from local storage
          * @returns {Object|Array|string|number|*}
          */
-        var getLocations = function() {
+        self.getLocations = function() {
             return angular.fromJson(localStorage.getItem(LOCATIONS_KEY))
         };
-
-        // this is required for to be used by app.config in router to identify if there are any locations available
-        this.getLocations = getLocations;
 
         this.$get = ['$log', function ($log) {
             var service = {
@@ -43,7 +41,7 @@
              */
             function activate() {
                 try {
-                    service.locations = getLocations();
+                    service.locations = self.getLocations();
                 } catch (err) {
                     service.locations = [];
                     $log.error('Failed to get locations from localStorage. Error: ' + err);
