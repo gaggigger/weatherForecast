@@ -28,8 +28,10 @@
          * Checks if there are location available and if there are any locations then redirect to weather
          * directory, otherwise take it to search page
          */
-        $urlRouterProvider.when('', function($location){
-            if (locationsServiceProvider.getLocations().length === 0) {
+        $urlRouterProvider.when('', function ($location) {
+            var locations = locationsServiceProvider.getLocations();
+
+            if (locations == null || locations.length === 0) {
                 $location.url('/search');
             } else {
                 $location.url('/weather');

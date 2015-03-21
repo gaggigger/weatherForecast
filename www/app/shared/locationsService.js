@@ -41,7 +41,7 @@
              */
             function activate() {
                 try {
-                    service.locations = self.getLocations();
+                    service.locations = self.getLocations() || [];
                 } catch (err) {
                     service.locations = [];
                     $log.error('Failed to get locations from localStorage. Error: ' + err);
