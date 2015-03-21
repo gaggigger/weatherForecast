@@ -46,13 +46,9 @@
                 $stateParams = locationsService.locations[0];
             }
 
-            if ($stateParams.city) {
-                vm.params = $stateParams;
-                $log.log(angular.toJson($stateParams));
-                getForecastData();
-            } else {
-                //$state.go('search');
-            }
+            vm.params = $stateParams;
+            $log.log(angular.toJson($stateParams));
+            getForecastData();
         }
 
         /**
