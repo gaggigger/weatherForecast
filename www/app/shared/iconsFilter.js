@@ -13,16 +13,16 @@
      */
     function icons() {
         var map = {
-            'clear-day': 'ion-ios7-sunny',
-            'clear-night': 'ion-ios7-moon',
-            rain: 'ion-ios7-rainy',
-            snow: 'ion-ios7-snowy',
-            sleet: 'ion-ios7-rainy',
-            wind: 'ion-ios7-flag',
-            fog: 'ion-ios7-cloudy',
-            cloudy: 'ion-ios7-cloudy',
-            'partly-cloudy-day': 'ion-ios7-partlysunny',
-            'partly-cloudy-night': 'ion-ios7-cloudy-night'
+            'clear-day': 'ion-ios-sunny',
+            'clear-night': 'ion-ios-moon',
+            rain: 'ion-ios-rainy',
+            snow: 'ion-ios-snowy',
+            sleet: 'ion-ios-rainy',
+            wind: 'ion-ios-flag',
+            fog: 'ion-ios-cloudy',
+            cloudy: 'ion-ios-cloudy',
+            'partly-cloudy-day': 'ion-ios-partlysunny',
+            'partly-cloudy-night': 'ion-ios-cloudy-night'
         };
 
         return function (icon) {

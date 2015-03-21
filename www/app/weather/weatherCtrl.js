@@ -7,10 +7,10 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$state', '$q', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', '$timeout', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$q', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', '$timeout', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $state, $q, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, $timeout, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $q, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, $timeout, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
         var vm = this,
             days = [];

@@ -12,7 +12,7 @@
         <button class="button button-icon"
                 ng-click="vm.showOptions()"><span class="icon ion-more"></span></button>
     </ion-nav-buttons>
-    <ion-slide-box>
+    <ion-slide-box show-pager="true">
         <ion-slide>
             <div class="center has-header has-bottom">
                 <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;<span class="icon secondary"
@@ -29,7 +29,7 @@
                 </h5>
                 <h5>Feels Like: <strong>{{vm.forecast.currently.apparentTemperature | number:0}}&deg;</strong></h5>
                 <p>Wind: <strong>{{vm.forecast.currently.windSpeed | number:0}}</strong>
-                    <span class="icon wind-icon ion-ios7-arrow-thin-up"
+                    <span class="icon wind-icon ion-ios-arrow-thin-up"
                           ng-style="{transform: 'rotate(' + vm.forecast.currently.windBearing + 'deg)'}"></span>
                 </p>
                 <p>Pressure: <strong>{{vm.forecast.currently.pressure}}</strong></p>
@@ -66,7 +66,7 @@
                             <div class="col">{{day.temperatureMax | number:0}}&deg;</div>
                             <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
                             <div class="col">{{day.windSpeed | number:1}}
-                                <span class="icon wind-icon ion-ios7-arrow-thin-up"
+                                <span class="icon wind-icon ion-ios-arrow-thin-up"
                                       ng-style="{transform: 'rotate(' + day.windBearing + 'deg)'}"></span></div>
                             <div class="col">{{day.pressure | number:0}}</div>
                         </div>
@@ -75,9 +75,6 @@
                         </ion-item>
                     </div>
                 </ion-list>
-            </div>
-            <div class="fixed-outside">
-                Updated {{vm.lastTimeRefreshed | date: 'short'}}
             </div>
         </ion-slide>
 
