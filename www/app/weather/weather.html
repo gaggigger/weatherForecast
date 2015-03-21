@@ -14,7 +14,7 @@
     </ion-nav-buttons>
     <ion-slide-box show-pager="true">
         <ion-slide>
-            <div class="center has-header has-bottom">
+            <div class="center has-header">
                 <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;<span class="icon secondary"
                                                                                                ng-class="vm.forecast.currently.icon | icons"></span>
                 </h2>
@@ -79,7 +79,7 @@
         </ion-slide>
 
         <ion-slide ng-if="vm.forecast.alerts">
-            <ion-content>
+            <ion-content overflow-scroll="true">
                 <div class="card"
                      ng-repeat="alert in vm.forecast.alerts">
                     <div class="item item-divider item-assertive title">{{alert.title}}</div>
