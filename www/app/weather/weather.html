@@ -30,7 +30,7 @@
                 <h5>Feels Like: <strong>{{vm.forecast.currently.apparentTemperature | number:0}}&deg;</strong></h5>
                 <p>Wind: <strong>{{vm.forecast.currently.windSpeed | number:0}}</strong>
                     <span class="icon wind-icon ion-ios-arrow-thin-up"
-                          ng-style="{transform: 'rotate(' + vm.forecast.currently.windBearing + 'deg)'}"></span>
+                          ng-style="{transform: 'rotate(' + (vm.forecast.currently.windBearing - 180) + 'deg)'}"></span>
                 </p>
                 <p>Pressure: <strong>{{vm.forecast.currently.pressure}}</strong></p>
                 <p>Sunrise: <strong>{{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}}</strong>
@@ -67,7 +67,7 @@
                             <div class="col">{{day.temperatureMin | number:0}}&deg;</div>
                             <div class="col">{{day.windSpeed | number:1}}
                                 <span class="icon wind-icon ion-ios-arrow-thin-up"
-                                      ng-style="{transform: 'rotate(' + day.windBearing + 'deg)'}"></span></div>
+                                      ng-style="{transform: 'rotate(' + (day.windBearing - 180) + 'deg)'}"></span></div>
                             <div class="col">{{day.pressure | number:0}}</div>
                         </div>
                         <ion-item class="item-accordion"
