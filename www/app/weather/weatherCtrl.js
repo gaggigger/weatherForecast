@@ -7,10 +7,10 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$q', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', '$timeout', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$q', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicPopup', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', '$timeout', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $q, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicLoading, $ionicSlideBoxDelegate, $filter, $timeout, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $q, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $filter, $timeout, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
         var vm = this,
             days = [];
@@ -87,9 +87,19 @@
                 buttonClicked: function (index) {
                     if (index === 0) {
                         if (this.buttons[0].id === 1) {
-                            locationsService.removeLocation($stateParams);
+                            $ionicPopup.confirm({
+                                title: 'Are you sure?',
+                                template: 'This will remove ' + $stateParams.city
+                            }).then(function(response){
+                                if (response) {
+                                    locationsService.removeLocation($stateParams);
+                                }
+                            });
                         } else {
                             locationsService.addLocation($stateParams);
+                            $ionicPopup.alert({
+                                title: 'Location saved'
+                            })
                         }
                     } else if (index === 1) {
                         locationsService.primary($stateParams);

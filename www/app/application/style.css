@@ -105,3 +105,8 @@
 .list .item.item-accordion.ng-hide {
     line-height: 0;
 }
+
+/* Fixes issue with scroll bars in prompt view */
+div.popup div.popup-body {
+    overflow: auto;
+}
