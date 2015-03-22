@@ -44,11 +44,6 @@
     font-size: 130px;
 }
 
-/* apply relative position to only first and second view */
-#weather-view ion-slide div.has-header {
-    position: relative;
-}
-
 .item-assertive {
     border-color: #e42012;
     background-color: #ef473a;

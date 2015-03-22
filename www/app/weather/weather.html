@@ -8,13 +8,13 @@
     </ion-nav-buttons>
     <ion-nav-buttons side="right">
         <button class="button button-icon"
-                ng-click="vm.refresh()"><span class="icon ion-refresh"></span></button>
+                ng-click="vm.refresh()"><span class="icon ion-android-refresh"></span></button>
         <button class="button button-icon"
                 ng-click="vm.showOptions()"><span class="icon ion-more"></span></button>
     </ion-nav-buttons>
     <ion-slide-box show-pager="true">
         <ion-slide>
-            <ion-content class="center has-footer" locking="true" overflow-scroll="true">
+            <ion-content class="center has-bottom" locking="true" overflow-scroll="true">
                 <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;<span class="icon secondary"
                                                                                                ng-class="vm.forecast.currently.icon | icons"></span>
                 </h2>
