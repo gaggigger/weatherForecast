@@ -15,7 +15,7 @@
          * Gets locations from local storage
          * @returns {Object|Array|string|number|*}
          */
-        self.getLocations = function() {
+        self.getLocations = function () {
             return angular.fromJson(localStorage.getItem(LOCATIONS_KEY))
         };
 
@@ -27,7 +27,8 @@
                 primary: primary,
                 locations: [],
                 locationByIndex: locationByIndex,
-                moveLocation: moveLocation
+                moveLocation: moveLocation,
+                isLocationInFavorites: isLocationInFavorites
             };
 
             activate();
@@ -125,6 +126,15 @@
                 service.locations.splice(fromIndex, 1);
                 service.locations.splice(toIndex, 0, location);
                 storeLocations();
+            }
+
+            /**
+             * Provides information if location is in favorites
+             * @param location. Location to be checked
+             * @returns {boolean} true if location is in favorites, othervise false
+             */
+            function isLocationInFavorites(location) {
+                return getIndex(location) >= 0;
             }
         }];
     }

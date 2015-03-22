@@ -7,13 +7,20 @@
 
     app.controller('WeatherCtrl', weatherCtrl);
 
-    weatherCtrl.$inject = ['$scope', '$q', '$stateParams', '$log', '$ionicActionSheet', '$ionicModal', '$ionicPopup', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', '$timeout', 'settingsService', 'forecastService', 'locationsService'];
+    weatherCtrl.$inject = ['$scope', '$q', '$stateParams', '$log', '$ionicPopover', '$ionicModal', '$ionicPopup', '$ionicLoading', '$ionicSlideBoxDelegate', '$filter', '$timeout', 'settingsService', 'forecastService', 'locationsService'];
 
     /* @ngInject */
-    function weatherCtrl($scope, $q, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $filter, $timeout, settingsService, forecastService, locationsService) {
+    function weatherCtrl($scope, $q, $stateParams, $log, $ionicPopover, $ionicModal, $ionicPopup, $ionicLoading, $ionicSlideBoxDelegate, $filter, $timeout, settingsService, forecastService, locationsService) {
         /* jshint validthis: true */
         var vm = this,
-            days = [];
+            days = [],
+            userOptions = [
+                {id: 0, title: 'Remove from Favorites'},
+                {id: 1, title: 'Add to Favorites'},
+                {id: 2, title: 'Set as Primary'},
+                {id: 3, title: 'Sunrise Sunset Chart'}
+            ],
+            popoverView;
 
         vm.params = null;
         vm.settings = settingsService.settings;
@@ -23,6 +30,9 @@
         vm.lastTimeRefreshed = Date.now();
         vm.toggleDay = toggleDay;
         vm.isDayExpanded = isDayExpanded;
+        vm.userOptions = userOptions;
+        vm.processOption = processOption;
+        vm.isLocationInFavorites = locationsService.isLocationInFavorites;
 
         activate();
 
@@ -33,6 +43,7 @@
          */
         function activate() {
             processRequest();
+            initializeUserOptionsView();
         }
 
         /**
@@ -77,62 +88,69 @@
             });
         }
 
+        // region User Options
+
         /**
-         * Used to setup and show an action sheet.
+         * Initialized popover view
          */
-        function showOptions() {
-            $ionicActionSheet.show({
-                buttons: actionButtons(),
-                cancelText: 'Cancel',
-                buttonClicked: function (index) {
-                    if (index === 0) {
-                        if (this.buttons[0].id === 1) {
-                            $ionicPopup.confirm({
-                                title: 'Are you sure?',
-                                template: 'This will remove ' + $stateParams.city
-                            }).then(function(response){
-                                if (response) {
-                                    locationsService.removeLocation($stateParams);
-                                }
-                            });
-                        } else {
-                            locationsService.addLocation($stateParams);
-                            $ionicPopup.alert({
-                                title: 'Location saved'
-                            })
-                        }
-                    } else if (index === 1) {
-                        locationsService.primary($stateParams);
-                    } else if (index === 2) {
-                        showModal();
+        function initializeUserOptionsView() {
+            $ionicPopover.fromTemplateUrl('app/weather/options-dialog.html', {
+                scope: $scope
+            }).then(function (popover) {
+                popoverView = popover;
+            });
+        }
+
+        /**
+         * Shows options dialog. $even it required field, since it provides
+         * information about what control was clicked
+         * @param $event
+         */
+        function showOptions($event) {
+            popoverView.show($event);
+        }
+
+        /**
+         * Process user selected option
+         * @param option
+         */
+        function processOption(option) {
+            $log.log('user option', option);
+            popoverView.hide();
+
+            if (option.id === 0) {
+                $ionicPopup.confirm({
+                    title: 'Are you sure?',
+                    template: 'This will remove ' + $stateParams.city
+                }).then(function (response) {
+                    if (response) {
+                        locationsService.removeLocation($stateParams);
                     }
-                    return true;
-                }
-            })
+                });
+            } else if (option.id === 1) {
+                locationsService.addLocation($stateParams);
+                $ionicPopup.alert({
+                    title: 'Location saved'
+                })
+            } else if (option.id === 2) {
+                locationsService.primary($stateParams);
+                $ionicPopup.alert({
+                    title: 'Location set as primary'
+                })
+            } else if (option.id === 3) {
+                showModal();
+            }
         }
 
         /**
-         * Dynamically creates action buttons
+         * Cleanup the popover when we're done with it
          */
-        function actionButtons() {
-            // find out if location already in favorites
-            var index = locationsService.getIndex($stateParams);
-            var buttons = [];
+        $scope.$on('destroy', function () {
+            popoverView.remove();
+            $log.log('options dialog has been destroyed');
+        });
 
-            if (index >= 0) {
-                // location already in favorites
-                buttons.push({id: 1, text: 'Remove from Favorites'})
-            } else {
-                buttons.push({id: 2, text: 'Add to Favorites'})
-            }
-
-            buttons.push(
-                {id: 3, text: 'Set as Primary'},
-                {id: 4, text: 'Sunrise Sunset chart'}
-            );
-
-            return buttons;
-        }
+        // endregion User Options
 
         // region Sunrise Sunset
 

@@ -104,7 +104,6 @@ div.popup div.popup-body {
     line-height: 20px;
     opacity: 1;
     padding: 5px 10px;
-    background: white;
 }
 
 .animate-show.ng-hide-add.ng-hide-add-active,
@@ -119,3 +118,17 @@ div.popup div.popup-body {
     padding: 0 10px;
 }
 /* end Animation related CSS */
+
+/* ion-popover-view view configuration */
+ion-popover-view.fit {
+    height: auto !important;
+}
+
+ion-popover-view.fit ion-content {
+    position: relative !important;
+}
+
+.platform-android ion-popover-view.fit {
+    margin-top: 10px !important;
+}
+/* end ion-popover-view configuration */

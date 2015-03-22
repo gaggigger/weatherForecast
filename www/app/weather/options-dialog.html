@@ -1,0 +1,13 @@
+<ion-popover-view class="fit">
+    <ion-content scroll="false">
+        <div class="list">
+            <div class="item"
+                 ng-if="(option.id === 0 && vm.isLocationInFavorites(vm.params)) ||
+                        (option.id === 1 && !vm.isLocationInFavorites(vm.params)) ||
+                        (option.id > 1)"
+                 ng-click="vm.processOption(option)"
+                 ng-repeat="option in vm.userOptions">{{option.title}}
+            </div>
+        </div>
+    </ion-content>
+</ion-popover-view>
