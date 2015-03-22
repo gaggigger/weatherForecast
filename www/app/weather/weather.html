@@ -70,7 +70,7 @@
                                       ng-style="{transform: 'rotate(' + (day.windBearing - 180) + 'deg)'}"></span></div>
                             <div class="col">{{day.pressure | number:0}}</div>
                         </div>
-                        <ion-item class="item-accordion"
+                        <ion-item class="animate-show"
                                   ng-show="vm.isDayExpanded(day)">{{vm.shownDay.summary}}
                         </ion-item>
                     </div>

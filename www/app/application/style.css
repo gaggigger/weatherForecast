@@ -89,18 +89,6 @@
     bottom:20px !important;
 }
 
-/* Accordion related settings */
-.list .item.item-accordion {
-    line-height: 30px;
-    padding-top: 0;
-    padding-bottom: 0;
-    transition: 0.09s all linear;
-}
-
-.list .item.item-accordion.ng-hide {
-    line-height: 0;
-}
-
 /* Fixes issue with scroll bars in prompt view */
 div.popup div.popup-body {
     overflow: auto;
@@ -110,3 +98,24 @@ div.popup div.popup-body {
 .second-view .overflow-scroll .scroll {
     height: inherit;
 }
+
+/* Animation related CSS */
+.animate-show {
+    line-height: 20px;
+    opacity: 1;
+    padding: 5px 10px;
+    background: white;
+}
+
+.animate-show.ng-hide-add.ng-hide-add-active,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+}
+
+.animate-show.ng-hide {
+    line-height: 0;
+    opacity: 0;
+    padding: 0 10px;
+}
+/* end Animation related CSS */
