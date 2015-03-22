@@ -14,7 +14,7 @@
     </ion-nav-buttons>
     <ion-slide-box show-pager="true">
         <ion-slide>
-            <div class="center has-header">
+            <ion-content class="center has-footer" locking="true" overflow-scroll="true">
                 <h2 class="primary">{{vm.forecast.currently.temperature | number:0}}&deg;<span class="icon secondary"
                                                                                                ng-class="vm.forecast.currently.icon | icons"></span>
                 </h2>
@@ -36,14 +36,14 @@
                 <p>Sunrise: <strong>{{vm.forecast.daily.data[0].sunriseTime | timezone:vm.forecast.timezone}}</strong>
                    Sunset: <strong>{{vm.forecast.daily.data[0].sunsetTime | timezone:vm.forecast.timezone}}</strong></p>
                 <h4 class="padding bolder">{{vm.forecast.hourly.summary}}</h4>
-            </div>
+            </ion-content>
             <div class="fixed-outside">
                 Updated {{vm.lastTimeRefreshed | date: 'short'}}
             </div>
         </ion-slide>
 
         <ion-slide class="second-view">
-            <div class="has-header has-bottom">
+            <ion-content locking="true" overflow-scroll="true">
                 <h5 class="padding center">{{vm.forecast.daily.summary}}</h5>
 
                 <div class="row">
@@ -75,7 +75,7 @@
                         </ion-item>
                     </div>
                 </ion-list>
-            </div>
+            </ion-content>
         </ion-slide>
 
         <ion-slide ng-if="vm.forecast.alerts">

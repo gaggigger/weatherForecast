@@ -110,3 +110,8 @@
 div.popup div.popup-body {
     overflow: auto;
 }
+
+/* fixes issue with vertical scroll bar on weather second view */
+.second-view .overflow-scroll .scroll {
+    height: inherit;
+}
